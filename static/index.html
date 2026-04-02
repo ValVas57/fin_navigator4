@@ -3,37 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinNavigator</title>
+    <title>ФинНавигатор | AI-ассистент для личных финансов</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: #f5f0e8; color: #2c2c2c; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        h1 { color: #c47a5e; margin-bottom: 20px; }
-        .status { background: #e8e0d5; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
-        .btn { background: #c47a5e; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-        .btn:hover { background: #a55e42; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fdf7f0 0%, #f5ede3 100%);
+            color: #4a3b2a;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #c47a5e 0%, #e7b183 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        .hero p { font-size: 1.2rem; color: #8b7a66; margin-bottom: 30px; }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .feature {
+            background: white;
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            border: 1px solid #e5d9ce;
+            transition: transform 0.2s;
+        }
+        .feature:hover { transform: translateY(-4px); }
+        .feature h3 { color: #c47a5e; margin-bottom: 12px; font-size: 1.3rem; }
+        .feature p { color: #8b7a66; }
+        .status {
+            background: #e8e0d5;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .btn {
+            display: inline-block;
+            background: #c47a5e;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover { background: #a55e42; transform: translateY(-2px); }
+        .badge {
+            display: inline-block;
+            background: #a5c882;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+        }
+        footer {
+            text-align: center;
+            color: #8b7a66;
+            font-size: 0.85rem;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #e5d9ce;
+        }
+        .check-result { margin-top: 20px; font-size: 0.9rem; color: #4a3b2a; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .hero { padding: 40px 20px; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>FinNavigator</h1>
-        <div class="status">
-            <p>Server is running!</p>
-            <p>Your AI assistant for personal finance.</p>
-        </div>
-        <button class="btn" onclick="checkHealth()">Check Server</button>
-        <p id="result" style="margin-top: 20px;"></p>
+<div class="container">
+    <div class="hero">
+        <div class="badge">✨ AI-ассистент для финансов</div>
+        <h1>🧭 ФинНавигатор</h1>
+        <p>Ваш персональный AI-помощник для управления бюджетом,<br>накоплений и финансового планирования</p>
+        <button class="btn" id="checkBtn">🔍 Проверить сервер</button>
+        <div id="checkResult" class="check-result"></div>
     </div>
-    <script>
-        async function checkHealth() {
-            try {
-                const response = await fetch('/health');
-                const data = await response.json();
-                document.getElementById('result').innerHTML = 'Server response: ' + JSON.stringify(data);
-            } catch(e) {
-                document.getElementById('result').innerHTML = 'Error: ' + e.message;
+
+    <div class="features">
+        <div class="feature"><h3>📊 Анализ расходов</h3><p>Загрузите выписку из банка — AI проанализирует ваши траты и предложит оптимизацию бюджета.</p></div>
+        <div class="feature"><h3>🎯 Финансовые цели</h3><p>Ставьте цели: накопить на отпуск, купить технику. AI рассчитает сроки и подскажет, как быстрее достичь.</p></div>
+        <div class="feature"><h3>🤖 Умный помощник</h3><p>Задайте вопрос: "Могу ли я купить ноутбук?" или "Как накопить 300 000 ₽?" — AI даст ответ с учётом ваших доходов.</p></div>
+        <div class="feature"><h3>📚 Образование и карьера</h3><p>На основе ваших интересов AI предложит курсы и варианты смены деятельности с расчётом окупаемости.</p></div>
+        <div class="feature"><h3>👨‍👩‍👧‍👦 Семейный бюджет</h3><p>Учитывайте интересы всех членов семьи. AI поможет распределить бюджет на хобби, кружки и общие цели.</p></div>
+        <div class="feature"><h3>📈 Прогнозы и риски</h3><p>AI предупредит о возможном кассовом разрыве и предложит варианты, как его избежать.</p></div>
+    </div>
+
+    <div class="status">
+        <p>✅ <strong>Сервер работает</strong> — приложение готово к использованию</p>
+        <p style="margin-top: 12px; font-size: 0.9rem;">
+            📱 <a href="/docs" target="_blank" style="color: #c47a5e;">Документация API (Swagger)</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>ФинНавигатор — AI-ассистент для личных финансов</p>
+        <p style="font-size: 0.75rem;">Версия 1.0.0 | Тестовый режим | Полный функционал доступен по запросу</p>
+    </footer>
+</div>
+
+<script>
+    document.getElementById('checkBtn').addEventListener('click', async function() {
+        const resultDiv = document.getElementById('checkResult');
+        resultDiv.innerHTML = '⏳ Проверка...';
+        try {
+            const response = await fetch('/health');
+            const data = await response.json();
+            if (response.ok) {
+                resultDiv.innerHTML = '✅ Сервер отвечает: ' + JSON.stringify(data);
+            } else {
+                resultDiv.innerHTML = '❌ Ошибка сервера: ' + response.status;
             }
+        } catch(e) {
+            resultDiv.innerHTML = '❌ Ошибка подключения: ' + e.message;
         }
-    </script>
+    });
+</script>
 </body>
 </html>
