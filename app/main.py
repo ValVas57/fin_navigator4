@@ -3,8 +3,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from app.routers import auth, profile, goals, chat
+from app.routers import auth, profile, goals, chat, upload
 
 app = FastAPI(title="FinNavigator", docs_url="/docs", redoc_url="/redoc")
+app.include_router(upload.router)
 
 # CORS
 app.add_middleware(
