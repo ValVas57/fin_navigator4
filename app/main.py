@@ -21,10 +21,11 @@ app.include_router(profile.router)
 app.include_router(goals.router)
 app.include_router(chat.router)
 
-# Подключаем статические файлы (HTML, CSS)
-if os.path.exists("static"):
-    app.mount("/", StaticFiles(directory="static", html=True), name="static")
-
+# Эндпоинты ДО статики
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+# Подключаем статические файлы (ДОЛЖНО БЫТЬ ПОСЛЕДНИМ!)
+if os.path.exists("static"):
+    app.mount("/", StaticFiles(directory="static", html=True), name="static")
