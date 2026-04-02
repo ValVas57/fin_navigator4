@@ -8,6 +8,7 @@ from app.routers import auth, profile, goals, chat, excel_upload
 
 app = FastAPI(title="FinNavigator", docs_url="/docs", redoc_url="/redoc")
 app.include_router(upload.router)
+app.include_router(excel_upload.router)
 
 # CORS
 app.add_middleware(
