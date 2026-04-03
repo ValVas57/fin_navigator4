@@ -21,15 +21,12 @@ app.include_router(profile.router)
 app.include_router(goals.router)
 app.include_router(chat.router)
 
-# Эндпоинты
-@app.get("/")
-async def root():
-    return {"message": "FinNavigator is running!", "status": "ok"}
-
+# Эндпоинты (кроме /, его заменит статика)
 @app.get("/health")
 async def health():
     return {"status": "ok"}
 
-# Статика ДОЛЖНА БЫТЬ ПОСЛЕДНЕЙ!
+# Статика (должна быть последней)
 if os.path.exists("static"):
     app.mount("/", StaticFiles(directory="static", html=True), name="static")
+
