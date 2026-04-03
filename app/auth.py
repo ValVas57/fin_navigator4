@@ -18,6 +18,7 @@ def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
+    # Обрезаем пароль до 72 байт
     return pwd_context.hash(password[:72])
 
 def authenticate_user(db: Session, email: str, password: str):
