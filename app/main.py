@@ -2,7 +2,11 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from app.database import engine, Base
 from app.routers import auth, profile, goals, chat
+
+# Создаём все таблицы (если их нет)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="FinNavigator", docs_url="/docs", redoc_url="/redoc")
 
@@ -29,4 +33,3 @@ async def health():
 # Статика (должна быть последней)
 if os.path.exists("static"):
     app.mount("/", StaticFiles(directory="static", html=True), name="static")
-
