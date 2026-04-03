@@ -4,7 +4,6 @@ from app.database import get_db
 from app.auth import get_current_user
 from app.models import User
 from pydantic import BaseModel
-import openai
 import os
 
 router = APIRouter(prefix="/chat", tags=["chat"])
