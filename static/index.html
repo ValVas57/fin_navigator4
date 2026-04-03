@@ -47,28 +47,64 @@
         .feature:hover { transform: translateY(-4px); }
         .feature h3 { color: #c47a5e; margin-bottom: 12px; font-size: 1.3rem; }
         .feature p { color: #8b7a66; }
-        .status {
-            background: #e8e0d5;
-            padding: 20px;
-            border-radius: 16px;
-            text-align: center;
-            margin-top: 40px;
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e5d9ce;
         }
-        .btn {
-            display: inline-block;
+        .card h2 { color: #c47a5e; margin-bottom: 20px; font-size: 1.5rem; }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #e5d9ce;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #fdf7f0;
+        }
+        button {
             background: #c47a5e;
             color: white;
-            padding: 12px 32px;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s;
             border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 1rem;
             cursor: pointer;
-            font-size: 16px;
+            transition: all 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
-        .btn:hover { background: #a55e42; transform: translateY(-2px); }
-        .badge {
+        button:hover { background: #a55e42; transform: translateY(-2px); }
+        .output {
+            background: #fdf7f0;
+            padding: 16px;
+            border-radius: 16px;
+            margin-top: 16px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+            border: 1px solid #e5d9ce;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            background: #e8e0d5;
+            color: #4a3b2a;
+        }
+        .tab-btn.active {
+            background: #c47a5e;
+            color: white;
+        }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+        .status-badge {
             display: inline-block;
             background: #a5c882;
             color: white;
@@ -85,7 +121,6 @@
             padding-top: 20px;
             border-top: 1px solid #e5d9ce;
         }
-        .check-result { margin-top: 20px; font-size: 0.9rem; color: #4a3b2a; }
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
             .hero { padding: 40px 20px; }
@@ -95,11 +130,78 @@
 <body>
 <div class="container">
     <div class="hero">
-        <div class="badge">✨ AI-ассистент для финансов</div>
+        <div class="status-badge">✨ AI-ассистент для финансов</div>
         <h1>🧭 ФинНавигатор</h1>
         <p>Ваш персональный AI-помощник для управления бюджетом,<br>накоплений и финансового планирования</p>
-        <button class="btn" id="checkBtn">🔍 Проверить сервер</button>
-        <div id="checkResult" class="check-result"></div>
+        <button id="checkServerBtn">🔍 Проверить сервер</button>
+        <div id="checkResult" class="output" style="display:none;"></div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="register">📝 Регистрация</button>
+        <button class="tab-btn" data-tab="login">🔐 Вход</button>
+        <button class="tab-btn" data-tab="profile">👤 Профиль</button>
+        <button class="tab-btn" data-tab="goals">🎯 Цели</button>
+        <button class="tab-btn" data-tab="chat">💬 AI-чат</button>
+    </div>
+
+    <!-- Вкладка: Регистрация -->
+    <div id="register" class="tab-pane active">
+        <div class="card">
+            <h2>📝 Регистрация</h2>
+            <input type="email" id="regEmail" placeholder="Email">
+            <input type="password" id="regPassword" placeholder="Пароль">
+            <input type="text" id="regFullName" placeholder="Полное имя">
+            <button id="registerBtn">Зарегистрироваться</button>
+            <div id="registerResult" class="output" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Вкладка: Вход -->
+    <div id="login" class="tab-pane">
+        <div class="card">
+            <h2>🔐 Вход</h2>
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Пароль">
+            <button id="loginBtn">Войти</button>
+            <div id="loginResult" class="output" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Вкладка: Профиль -->
+    <div id="profile" class="tab-pane">
+        <div class="card">
+            <h2>👤 Профиль</h2>
+            <input type="text" id="firstName" placeholder="Имя">
+            <input type="number" id="age" placeholder="Возраст">
+            <input type="text" id="hobbies" placeholder="Хобби (через запятую)">
+            <button id="getProfileBtn">Получить профиль</button>
+            <button id="updateProfileBtn">Обновить профиль</button>
+            <div id="profileResult" class="output" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Вкладка: Цели -->
+    <div id="goals" class="tab-pane">
+        <div class="card">
+            <h2>🎯 Финансовые цели</h2>
+            <input type="text" id="goalName" placeholder="Название цели">
+            <input type="number" id="goalAmount" placeholder="Целевая сумма">
+            <input type="date" id="goalDeadline" placeholder="Срок">
+            <button id="createGoalBtn">Создать цель</button>
+            <button id="getGoalsBtn">Список целей</button>
+            <div id="goalsResult" class="output" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Вкладка: AI-чат -->
+    <div id="chat" class="tab-pane">
+        <div class="card">
+            <h2>💬 AI-помощник</h2>
+            <textarea id="chatMessage" rows="3" placeholder="Задайте вопрос..."></textarea>
+            <button id="sendChatBtn">Отправить</button>
+            <div id="chatResult" class="output" style="display:none;"></div>
+        </div>
     </div>
 
     <div class="features">
@@ -111,13 +213,6 @@
         <div class="feature"><h3>📈 Прогнозы и риски</h3><p>AI предупредит о возможном кассовом разрыве и предложит варианты, как его избежать.</p></div>
     </div>
 
-    <div class="status">
-        <p>✅ <strong>Сервер работает</strong> — приложение готово к использованию</p>
-        <p style="margin-top: 12px; font-size: 0.9rem;">
-            📱 <a href="/docs" target="_blank" style="color: #c47a5e;">Документация API (Swagger)</a>
-        </p>
-    </div>
-
     <footer>
         <p>ФинНавигатор — AI-ассистент для личных финансов</p>
         <p style="font-size: 0.75rem;">Версия 1.0.0 | Тестовый режим | Полный функционал доступен по запросу</p>
@@ -125,20 +220,206 @@
 </div>
 
 <script>
-    document.getElementById('checkBtn').addEventListener('click', async function() {
+    let token = null;
+
+    function showResult(elementId, data, isError = false) {
+        const el = document.getElementById(elementId);
+        el.style.display = 'block';
+        el.style.background = isError ? '#ffebee' : '#fdf7f0';
+        el.style.color = isError ? '#c62828' : '#4a3b2a';
+        el.textContent = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+    }
+
+    // Проверка сервера
+    document.getElementById('checkServerBtn').onclick = async () => {
         const resultDiv = document.getElementById('checkResult');
-        resultDiv.innerHTML = '⏳ Проверка...';
+        resultDiv.style.display = 'block';
+        resultDiv.textContent = '⏳ Проверка...';
         try {
-            const response = await fetch('/health');
-            const data = await response.json();
-            if (response.ok) {
+            const res = await fetch('/health');
+            const data = await res.json();
+            if (res.ok) {
                 resultDiv.innerHTML = '✅ Сервер отвечает: ' + JSON.stringify(data);
             } else {
-                resultDiv.innerHTML = '❌ Ошибка сервера: ' + response.status;
+                resultDiv.innerHTML = '❌ Ошибка: ' + res.status;
             }
         } catch(e) {
             resultDiv.innerHTML = '❌ Ошибка подключения: ' + e.message;
         }
+    };
+
+    // Регистрация
+    document.getElementById('registerBtn').onclick = async () => {
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const full_name = document.getElementById('regFullName').value;
+        try {
+            const res = await fetch('/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, full_name })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showResult('registerResult', { status: 'Успешно!', data });
+            } else {
+                showResult('registerResult', { error: data.detail || 'Ошибка' }, true);
+            }
+        } catch(e) {
+            showResult('registerResult', { error: e.message }, true);
+        }
+    };
+
+    // Вход
+    document.getElementById('loginBtn').onclick = async () => {
+        const username = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        try {
+            const formData = new URLSearchParams();
+            formData.append('username', username);
+            formData.append('password', password);
+            const res = await fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
+            });
+            const data = await res.json();
+            if (res.ok) {
+                token = data.access_token;
+                showResult('loginResult', { status: 'Вход выполнен!', token: token.substring(0, 50) + '...' });
+            } else {
+                showResult('loginResult', { error: data.detail || 'Ошибка' }, true);
+            }
+        } catch(e) {
+            showResult('loginResult', { error: e.message }, true);
+        }
+    };
+
+    // Получить профиль
+    document.getElementById('getProfileBtn').onclick = async () => {
+        if (!token) { showResult('profileResult', { error: 'Сначала войдите!' }, true); return; }
+        try {
+            const res = await fetch('/profile/', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showResult('profileResult', data);
+                if (data.first_name) document.getElementById('firstName').value = data.first_name || '';
+                if (data.age) document.getElementById('age').value = data.age || '';
+                if (data.hobbies) document.getElementById('hobbies').value = data.hobbies.join(', ');
+            } else {
+                showResult('profileResult', { error: data.detail || 'Ошибка' }, true);
+            }
+        } catch(e) {
+            showResult('profileResult', { error: e.message }, true);
+        }
+    };
+
+    // Обновить профиль
+    document.getElementById('updateProfileBtn').onclick = async () => {
+        if (!token) { showResult('profileResult', { error: 'Сначала войдите!' }, true); return; }
+        const first_name = document.getElementById('firstName').value;
+        const age = parseInt(document.getElementById('age').value);
+        const hobbiesStr = document.getElementById('hobbies').value;
+        const hobbies = hobbiesStr ? hobbiesStr.split(',').map(s => s.trim()) : [];
+        try {
+            const res = await fetch('/profile/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ first_name, age, hobbies, family_members: [], financial_goals: [] })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showResult('profileResult', { status: 'Профиль обновлён!', data });
+            } else {
+                showResult('profileResult', { error: data.detail || 'Ошибка' }, true);
+            }
+        } catch(e) {
+            showResult('profileResult', { error: e.message }, true);
+        }
+    };
+
+    // Создать цель
+    document.getElementById('createGoalBtn').onclick = async () => {
+        if (!token) { showResult('goalsResult', { error: 'Сначала войдите!' }, true); return; }
+        const name = document.getElementById('goalName').value;
+        const target_amount = parseFloat(document.getElementById('goalAmount').value);
+        const deadline = document.getElementById('goalDeadline').value;
+        try {
+            const res = await fetch('/goals/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ name, target_amount, deadline: deadline || null })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showResult('goalsResult', { status: 'Цель создана!', data });
+            } else {
+                showResult('goalsResult', { error: data.detail || 'Ошибка' }, true);
+            }
+        } catch(e) {
+            showResult('goalsResult', { error: e.message }, true);
+        }
+    };
+
+    // Список целей
+    document.getElementById('getGoalsBtn').onclick = async () => {
+        if (!token) { showResult('goalsResult', { error: 'Сначала войдите!' }, true); return; }
+        try {
+            const res = await fetch('/goals/', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showResult('goalsResult', data);
+            } else {
+                showResult('goalsResult', { error: data.detail || 'Ошибка' }, true);
+            }
+        } catch(e) {
+            showResult('goalsResult', { error: e.message }, true);
+        }
+    };
+
+    // AI-чат
+    document.getElementById('sendChatBtn').onclick = async () => {
+        if (!token) { showResult('chatResult', { error: 'Сначала войдите!' }, true); return; }
+        const message = document.getElementById('chatMessage').value;
+        try {
+            const res = await fetch('/chat/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ message })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showResult('chatResult', { response: data.response });
+            } else {
+                showResult('chatResult', { error: data.detail || 'Ошибка' }, true);
+            }
+        } catch(e) {
+            showResult('chatResult', { error: e.message }, true);
+        }
+    };
+
+    // Переключение вкладок
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.onclick = () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const tabId = btn.getAttribute('data-tab');
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        };
     });
 </script>
 </body>
