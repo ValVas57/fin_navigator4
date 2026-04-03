@@ -7,4 +7,4 @@ passlib[bcrypt]
 bcrypt
 httpx
 python-multipart
-
+openpyxl
